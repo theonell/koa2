@@ -1,4 +1,5 @@
 const Koa = require('koa')
+var cors = require('koa2-cors');
 require('./db')
 const app = new Koa()
 // const views = require('koa-views')
@@ -17,6 +18,7 @@ onerror(app)
 app.use(bodyparser({
   enableTypes:['json', 'form', 'text']
 }))
+app.use(cors())
 app.use(json())
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))

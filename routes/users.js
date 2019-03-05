@@ -4,7 +4,7 @@ const Goods = require('../dao/goods')
 router.prefix('/users')
 
 router.get('/', async (ctx, next) => {
-  const goods = await Goods.find(function(err, goods) {
+  let goods = await Goods.find(function(err, goods) {
     if (err) return console.error(err)
     return goods
   })
@@ -23,8 +23,24 @@ router.post('/add_goods', async (ctx, next) => {
   ctx.body = result
 })
 
-router.get('/bar', function(ctx, next) {
-  ctx.body = 'this is a users/bar response'
+router.put('/update_goods', async(ctx, next) => {
+  const { request, reponse } = ctx
+  const {_id} = request.body
+  console.log(request.body)
+  let goods = await Goods.updateOne({_id: _id},request.body, function(err) {
+    console.log(err)
+  })
+  ctx.body = goods
+
+})
+
+router.delete('/del_goods', async(ctx, next) => {
+  const { request, reponse } = ctx
+  const {id} = request.body
+  let goods = await Goods.deleteOne({_id: id}, function(err) {
+    console.log(err)
+  })
+  ctx.body = goods
 })
 
 module.exports = router
